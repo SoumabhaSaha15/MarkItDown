@@ -1,2 +1,2 @@
 # MarkItDown
-  ![home_page_1](./client/public/image.jpg)
+  ![branding](./client/public/image.jpg)
