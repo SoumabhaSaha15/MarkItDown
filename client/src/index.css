@@ -1,8 +1,2 @@
 @import "tailwindcss";
 @plugin "daisyui";
-
-*{
-  font-family: "Varela Round", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
