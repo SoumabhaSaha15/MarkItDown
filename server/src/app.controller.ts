@@ -1,12 +1,21 @@
-import { Controller, Get, Res, Req } from '@nestjs/common';
-import { Response, Request } from 'express';
+import { Controller, Get, Body, Post, ValidationPipe, Req, UseInterceptors } from '@nestjs/common';
+import { FormDataRequest } from 'nestjs-form-data';
 import { AppService } from './app.service';
-@Controller()
+import { UserQueryDTO } from 'DTO/user-query-dto';
+@Controller('api')
 export class AppController {
   constructor(private readonly appService: AppService) { }
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Post('/auth')
+  @FormDataRequest()
+  async auth(@Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) body:UserQueryDTO):Promise<UserQueryDTO> {
+    const x:UserQueryDTO = {...body, name: 'test'};
+    console.log(x)
+    return x;
   }
 
 }
