@@ -1,5 +1,6 @@
 import React from 'react';
 import AOS from 'aos';
+import { useToast } from '../context/Toast/ToastContext';
 export const Home: React.FC = () => {
   React.useEffect(() => {
     AOS.init({
@@ -8,19 +9,29 @@ export const Home: React.FC = () => {
     });
     document.title = 'Home';
   }, []);
-
+  const toast = useToast();
+  const handleClick = () => {
+    toast.open("toast is working", 2000, { toastPosition: ["toast-center", "toast-bottom"], toastVariant: "alert-error" });
+  }
   return (
-    <div className="hero bg-base-200 min-h-screen" data-aos="zoom-in" data-aos-delay="100">
-      <div className="hero-content text-center">
-        <div className="max-w-md">
-          <h1 className="text-5xl font-bold">Hello there</h1>
-          <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-            quasi. In deleniti eaque aut repudiandae et a id nisi.
-          </p>
-          <button className="btn btn-primary">Get Started</button>
+    <>
+      <style>
+        {``}
+      </style>
+      <div className="hero bg-base-200 min-h-screen" data-aos="zoom-in" data-aos-delay="100">
+        <div className="hero-content text-center">
+          <div className="max-w-md">
+            <h1 className="text-5xl font-bold">Hello there</h1>
+            <p className="py-6">
+              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
+              quasi. In deleniti eaque aut repudiandae et a id nisi.
+            </p>
+            <button className="btn btn-primary" onClick={() => {
+              handleClick();
+            }}>Get Started</button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
