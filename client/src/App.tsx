@@ -13,4 +13,4 @@ function App(): ReactNode {
   )
 }
 
-export default App
+export default App;

@@ -1,23 +1,24 @@
 import React from 'react';
 import AOS from 'aos';
 import { useToast } from '../context/Toast/ToastContext';
+import setTitle from '../utility/set-title';
 export const Home: React.FC = () => {
   React.useEffect(() => {
     AOS.init({
       duration: 1000,
       once: true,
     });
-    document.title = 'Home';
+    setTitle("Home");
   }, []);
   const toast = useToast();
   const handleClick = () => {
-    toast.open("toast is working", 2000, { toastPosition: ["toast-center", "toast-bottom"], toastVariant: "alert-error" });
+    toast.open(`toast is working`, 2000, {
+      toastPosition: ["toast-center", "toast-bottom"],
+      toastVariant: "alert-error"
+    });
   }
   return (
     <>
-      <style>
-        {``}
-      </style>
       <div className="hero bg-base-200 min-h-screen" data-aos="zoom-in" data-aos-delay="100">
         <div className="hero-content text-center">
           <div className="max-w-md">
