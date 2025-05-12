@@ -12,10 +12,7 @@ export const Home: React.FC = () => {
   }, []);
   const toast = useToast();
   const handleClick = () => {
-    toast.open(`toast is working`, 2000, {
-      toastPosition: ["toast-center", "toast-bottom"],
-      toastVariant: "alert-error"
-    });
+    toast.open(`toast is working`, 2000,{toastPosition:['',''],toastVariant:'alert-success'});
   }
   return (
     <>

@@ -7,7 +7,10 @@ const ToastOptionsValidator = z.strictObject({
   toastPosition: z.tuple([
     z.enum(['', 'toast-start', 'toast-end', 'toast-center']),
     z.enum(['', 'toast-top', 'toast-bottom', 'toast-middle'])
-  ]).refine(v => (v[0] === "") ? (v[1] === v[0]) : true)
+  ], { invalid_type_error: "Invalid toast position!!!" })
+  .refine(v => (v[0] === "") ? (v[1] === v[0]) : true, {
+    message: "Both toast position should be empty or defined."
+  })
 });
 
 export type ToastOptionsType = z.infer<typeof ToastOptionsValidator>;
@@ -18,11 +21,11 @@ export default function ToastProvider({ children }: { children: ReactNode; }) {
     toastVariant: "alert-info",
   });
   const close = (id: string) => setToasts((toasts) => toasts.filter((toast) => toast.id !== id));
-  const open = (component: string, timeout = 100, toastOptions: ToastOptionsType = { toastPosition: ["", ""], toastVariant: "alert-info" }) => {
+  const open = (component: string, timeout = 100, toastOptions: ToastOptionsType = { toastPosition: ["", "toast-bottom"], toastVariant: "alert-info" }) => {
     const isValid = ToastOptionsValidator.safeParse(toastOptions);
-    setToastOptions(prev => isValid.success ? isValid.data : (console.log(issueFlattener(isValid.error), toastOptions), prev));
+    setToastOptions(prev => isValid.success ? isValid.data : (console.log('%c' + issueFlattener(isValid.error), 'color: red; font-weight: bold; font-size: 32px;', toastOptions), prev));
     const id = crypto.randomUUID();
-    setToasts((toasts) => [{ id, component },...toasts]);
+    setToasts((toasts) => [{ id, component }, ...toasts]);
     setTimeout(() => close(id), timeout);
   };
   return (
