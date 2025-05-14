@@ -12,7 +12,8 @@ export const Home: React.FC = () => {
   }, []);
   const toast = useToast();
   const handleClick = () => {
-    toast.open(`toast is working`, 2000,{toastPosition:['',''],toastVariant:'alert-success'});
+    toast.open(`toast is working`);
+    // setTimeout(toast.close, 2000, toastId);
   }
   return (
     <>
