@@ -1,12 +1,15 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable, BadRequestException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 @Injectable()
 export class GoogleAuthGuard extends AuthGuard('google') {
   async canActivate(context: ExecutionContext) {
-    const Activate = (await super.canActivate(context)) as boolean;
-    console.log('GoogleAuthGuard canActivate:', Activate);
-    const request = context.switchToHttp().getRequest();
-    await super.logIn(request);
-    return Activate;
+    try {
+      const Activate = (await super.canActivate(context)) as boolean;
+      const request = context.switchToHttp().getRequest();
+      await super.logIn(request);
+      return Activate;
+    } catch (error) {
+      throw new BadRequestException((error as Error).message);
+    }
   }
 }

@@ -5,15 +5,10 @@ import { UserQueryDTO } from 'DTO/user-query-dto';
 @Controller('api')
 export class AppController {
   constructor(private readonly appService: AppService) { }
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
   @Post('/auth')
   @FormDataRequest()
   async auth(@Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) body:UserQueryDTO):Promise<UserQueryDTO> {
-    const x:UserQueryDTO = {...body, name: 'test'};
+    const x:UserQueryDTO = {...body};
     console.log(x)
     return x;
   }
