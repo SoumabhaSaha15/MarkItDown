@@ -10,7 +10,7 @@ export const Home: React.FC = () => {
     setTitle("Home");
   }, []);
   const handleClick = () => {
-    window.location.href = `http://localhost:3000/api/auth/google-login`;
+    window.location.href = import.meta.env.VITE_GOOGLE_LOGIN_URI;
   }
   return (
     <>
