@@ -26,4 +26,8 @@ export class UserProfileDTO {
   @IsNotEmpty({ message: 'Access token is required.' })
   @IsString()
   accessToken: string;
+
+  @IsNotEmpty({ message: 'User ID is required.' })
+  @IsBoolean({ message: 'User ID must be a boolean.' })
+  isLoggedIn: boolean;
 }

@@ -20,6 +20,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
       isEmailVerified: profile.emails?.[0]?.verified ?? false,
       profilePhoto: profile.photos?.[0]?.value || '',
       accessToken: accessToken, // Store the access token
+      isLoggedIn: true, // Set login status to true
     });
     return user;
   }

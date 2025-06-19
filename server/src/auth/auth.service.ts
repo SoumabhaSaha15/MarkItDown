@@ -14,11 +14,15 @@ export class AuthService {
       user.name = userData.name;
       user.profilePhoto = userData.profilePhoto;
       user.accessToken = userData.accessToken; // Update access token
+      user.isLoggedIn = userData.isLoggedIn; // Update login status
       await user.save();
     }
     return (!user) ? await this.userModel.create(userData) : user;
   }
   async findUserById(id: string): Promise<User | null> {
     return await this.userModel.findById(id).exec();
+  }
+  async updateUserLoginStatus(id: string, isLoggedIn: boolean): Promise<User | null> {
+    return await this.userModel.findByIdAndUpdate(id, {$set:{"isLoggedIn":isLoggedIn}}, { new: true }).exec();
   }
 }

@@ -17,6 +17,9 @@ export class User {
   @Prop({ required: true })
   accessToken: string; // Uncomment if you want to store access tokens
 
+  @Prop({required:true})
+  isLoggedIn:boolean;
+
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 export type UserDocument = User & Document;
