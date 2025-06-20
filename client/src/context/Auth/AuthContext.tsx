@@ -9,16 +9,16 @@ export const UserDetailsSchema = z.object({
 });
 export type UserDetailsType = z.infer<typeof UserDetailsSchema>|null;
 export const AuthContext = createContext < {
-  login: (id: string) => void;
-  logout: (id: string,lambda:()=>void) => void;
+  login: (id: string) => Promise<void>;
+  logout: (id: string,lambda:()=>void) => Promise<void>;
   userDetails: UserDetailsType | null;
   userId:string|null;
   setUserId: (id: string|null) => void;
 }> ({
-  login: (id: string) => {
+  login: async (id: string) => {
     console.log(`User with ID ${id} logged in`);
   },
-  logout: (id: string,lambda:()=>void) => {
+  logout: async (id: string,lambda:()=>void) => {
     console.log(`User with ID ${id} logged out`);
     lambda();
   },

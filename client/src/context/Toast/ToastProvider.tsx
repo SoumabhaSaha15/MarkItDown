@@ -1,22 +1,8 @@
-
-import { z } from 'zod';
+import { ToastOptionsValidator, type ToastOptionsType } from './ToastContext';
 import { ToastContext } from './ToastContext';
 import { useState, type ReactNode } from 'react';
 import issueFlattener from './../../utility/zod-error-flattener';
 import logError from './../../utility/log-error';
-
-const ToastOptionsValidator = z.strictObject({
-  toastVariant: z.enum(['alert-info', 'alert-success', 'alert-warning', 'alert-error']),
-  toastPosition: z.tuple([
-    z.enum(['', 'toast-start', 'toast-end', 'toast-center']),
-    z.enum(['', 'toast-top', 'toast-bottom', 'toast-middle'])
-  ]).refine(
-    v => (v[0] === "") ? (v[1] === v[0]) : true, {
-    message: "Both toast position should be empty or defined."
-  })
-});
-
-export type ToastOptionsType = z.infer<typeof ToastOptionsValidator>;
 
 export default function ToastProvider({ children }: { children: ReactNode; }) {
 
