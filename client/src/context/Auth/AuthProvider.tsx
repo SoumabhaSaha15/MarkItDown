@@ -7,19 +7,26 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const [userId, setUserId] = useState<string | null>(null);
   const toast = useToast();
   // console.log(import.meta.env.VITE_USER_PROFILE);
-  const login = async (id: string) => {
-    const QS = new URL(import.meta.env.VITE_USER_PROFILE);
-    QS.searchParams.set('_id', id);
-    const response = await fetch(QS.toString())
-    if (response.status != 200) toast.open('Error fetching user profile', true, 2000, DefaultOptions.error);
-    else {
-      const parsedData = UserDetailsSchema.safeParse(await response.json());
-      if (!parsedData.success) toast.open('Invalid user data received', true, 2000, DefaultOptions.error);
+  const login = async (id: string,lambda:()=>void) => {
+    try{
+      const QS = new URL(import.meta.env.VITE_USER_PROFILE);
+      QS.searchParams.set('_id', id);
+      const response = await fetch(QS.toString())
+      if (response.status != 200) toast.open('Error fetching user profile', true, 2000, DefaultOptions.error);
       else {
-        toast.open('userId:' + id + ' logged in', true, 5000);
-        setUserId(id);
-        setUserDetails(parsedData.data);
+        const parsedData = UserDetailsSchema.safeParse(await response.json());
+        if (!parsedData.success) toast.open('Invalid user data received', true, 2000, DefaultOptions.error);
+        else {
+          toast.open('userId:' + id + ' logged in', true, 5000);
+          setUserId(id);
+          setUserDetails(parsedData.data);
+        }
       }
+    }catch(e){
+      toast.open('Error logging out: ' + e, true, 2000, DefaultOptions.error);
+      console.error(e);
+    }finally{
+      setTimeout(lambda, 1000);
     }
   };
 
