@@ -30,9 +30,9 @@ export class AuthController {
       const errors = validateSync(userProfile);
       if (errors.length > 0) throw new BadRequestException(errors);
       res.cookie('_id', this.jwtService.sign({ "_id": user._id }), {
-        httpOnly: true, maxAge: 60 * 60 * 24 * 7,
+        httpOnly: true, maxAge: 60 * 60 * 24 * 7 * 1000,
       });
-      res.redirect(`${process.env.REDIRECT_FRONTEND_URI}/?_id=${user._id}`);
+      res.redirect(`${process.env.REDIRECT_FRONTEND_URI}`);
     }
   }
 

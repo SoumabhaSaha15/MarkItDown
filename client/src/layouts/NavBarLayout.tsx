@@ -3,6 +3,7 @@ import IonIcon from "@reacticons/ionicons";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../context/Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../context/Theme/ThemeContext";
 const SideBar: React.FC<{ children: React.ReactElement }> = ({ children }) => {
   return (<div className="drawer">
     <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -15,18 +16,6 @@ const SideBar: React.FC<{ children: React.ReactElement }> = ({ children }) => {
         {/* Sidebar content here */}
         <li><a>Sidebar Item 1</a></li>
         <li><a>Sidebar Item 2</a></li>
-        <li className="flex flex-row items-center justify-evenly">
-          <label className="label label-text">
-            Toggle theme:
-          </label>
-          <label className="flex cursor-pointer gap-2">
-            {/* sun icon */}
-            <IonIcon name="sunny" className="swap-off h-10 w-10 fill-current" size="large" />
-            <input type="checkbox" value="synthwave" className="toggle theme-controller" />
-            {/* moon icon */}
-            <IonIcon name="moon" className="swap-on h-10 w-10 fill-current" size="large" />
-          </label>
-        </li>
       </ul>
     </div>
   </div>)
@@ -35,6 +24,7 @@ const SideBar: React.FC<{ children: React.ReactElement }> = ({ children }) => {
 export const NavBarOutlet: React.FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+  const toggleTheme = useTheme();
   React.useEffect(() => {
     if (auth.userDetails === null) auth.login(() => { }, () => { navigate('/', { replace: true }) });
     else if (auth.userDetails.isLoggedIn === false) navigate('/', { replace: true });
@@ -52,6 +42,23 @@ export const NavBarOutlet: React.FC = () => {
           <a className="btn btn-ghost text-xl">MarkItDown</a>
         </div>
         <div className="navbar-end">
+
+
+          <div className="tooltip tooltip-bottom" data-tip={`Apply ${(toggleTheme.theme === "dark" ? "light Mode" : "dark Mode")}`}>
+            <button className="btn btn-ghost btn-circle" >
+              <label className="swap swap-rotate">
+                {/* this hidden checkbox controls the state */}
+                <input type="checkbox" className="theme-controller" value="synthwave" onChange={() => {
+                  toggleTheme.setTheme(toggleTheme.theme === "dark" ? 'light' : 'dark');
+                }} />
+                {/* sun icon */}
+                <IonIcon name={toggleTheme.theme === "dark" ? "sunny" : "moon"} className="swap-on h-10 w-10 fill-current" size="large" />
+                {/* moon icon */}
+                <IonIcon name={toggleTheme.theme === "dark" ? "sunny" : "moon"} className="swap-off h-10 w-10 fill-current" size="large" />
+              </label>
+            </button>
+          </div>
+
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
