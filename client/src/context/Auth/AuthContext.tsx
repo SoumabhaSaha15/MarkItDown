@@ -5,28 +5,27 @@ export const UserDetailsSchema = z.object({
   email: z.string().email(),
   isEmailVerified: z.boolean(),
   profilePhoto: z.string().url(),
-  isLoggedIn: z.boolean()
+  isLoggedIn: z.boolean(),
+  _id: z.string().refine((val) => /^[0-9a-fA-F]{24}$/.test(val), {
+    message: "Invalid ObjectId format",
+  }),
 });
 export type UserDetailsType = z.infer<typeof UserDetailsSchema>|null;
 export const AuthContext = createContext < {
-  login: (id: string,lambda:()=>void) => Promise<void>;
-  logout: (id: string,lambda:()=>void) => Promise<void>;
+  login: (onSuccess?:() => void,onError?:() => void) => Promise<void>;
+  logout: (onSuccess?:() => void,onError?:() => void) => Promise<void>;
   userDetails: UserDetailsType | null;
-  userId:string|null;
-  setUserId: (id: string|null) => void;
 }> ({
-  login: async (id: string,lambda:()=>void) => {
-    console.log(`User with ID ${id} logged in`);
-    lambda();
+  login: async (onSuccess:() => void = () => {}, onError:() => void = () => {}) => {
+    console.log(`User logged in`);
+    onSuccess();
+    onError();
   },
-  logout: async (id: string,lambda:()=>void) => {
-    console.log(`User with ID ${id} logged out`);
-    lambda();
+  logout: async (onSuccess:() => void = () => {}, onError:() => void = () => {}) => {
+    console.log(`User logged out`);
+    onSuccess();
+    onError();
   },
   userDetails: null,
-  userId: null,
-  setUserId: (id:null|string) => {
-    console.log(`User ID set to ${id}`);
-  }
 });
 export const useAuth = () => useContext(AuthContext);

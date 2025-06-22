@@ -1,5 +1,9 @@
 import React from "react";
+import { useAuth } from "../context/Auth/AuthContext";
+import { useNavigate } from "react-router-dom";
 export const Profile: React.FC = () => {
+  const auth = useAuth();
+  const navigate = useNavigate();
   return (<div
     className="hero min-h-screen"
     style={{
@@ -15,7 +19,13 @@ export const Profile: React.FC = () => {
           Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
           quasi. In deleniti eaque aut repudiandae et a id nisi.
         </p>
-        <button className="btn btn-primary">Get Started</button>
+        <button className="btn btn-error" onClick={
+          () => {
+            auth.logout(() => {
+              navigate('/', { replace: true })
+            });
+          }
+        }> logout</button>
       </div>
     </div>
   </div>)

@@ -1,5 +1,5 @@
-import { Document } from "mongoose";
-import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
+import { Document, Types } from "mongoose";
+import { Schema, Prop, SchemaFactory, } from "@nestjs/mongoose";
 @Schema({ timestamps: true })
 export class User {
   @Prop({ required: true, unique: true })
@@ -17,9 +17,8 @@ export class User {
   @Prop({ required: true })
   accessToken: string; // Uncomment if you want to store access tokens
 
-  @Prop({required:true})
-  isLoggedIn:boolean;
-
+  @Prop({ required: true })
+  isLoggedIn: boolean;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 export type UserDocument = User & Document;

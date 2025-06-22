@@ -36,14 +36,10 @@ export const NavBarOutlet: React.FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   React.useEffect(() => {
-    if (auth.userId === null || auth.userDetails === null) {
-      // navigate('/', { replace: true });
-    } else if (auth.userDetails.isLoggedIn === false) navigate('/', { replace: true });
-    else {
-
-    }
-
-  }, [auth.userId, auth.userDetails]);
+    if (auth.userDetails === null) auth.login(() => { }, () => { navigate('/', { replace: true }) });
+    else if (auth.userDetails.isLoggedIn === false) navigate('/', { replace: true });
+    else { }
+  }, []);
   return <SideBar children={(
     <>
       <div className="navbar bg-base-100 shadow-sm">
@@ -60,20 +56,20 @@ export const NavBarOutlet: React.FC = () => {
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 <img
-                  alt={auth.userId || 'uid'}
+                  alt={auth.userDetails?._id || 'uid'}
                   src={auth.userDetails?.profilePhoto || '/user-circle.svg'} />
               </div>
             </div>
 
             <div className="dropdown-content card bg-base-300 w-80 shadow-sm">
-              <figure className="px-10 pt-10">
+              <figure className="px-10 py-5">
                 <div className="avatar">
                   <div className="w-24 rounded-full">
-                    <img src={(auth.userDetails !== null) ? auth.userDetails.profilePhoto : '/user-circle.svg'} alt={auth.userId || 'uid'} />
+                    <img src={(auth.userDetails !== null) ? auth.userDetails.profilePhoto : '/user-circle.svg'} alt={auth.userDetails?._id || 'uid'} className="bg-gray-500" />
                   </div>
                 </div>
               </figure>
-              <div className="card-body items-center text-center">
+              <div className="card-body items-center text-center bg-base-200">
                 <h2 className="card-title">{auth.userDetails?.name || 'User Name'}</h2>
                 <p>{auth.userDetails?.email || 'example@email.com'}</p>
               </div>

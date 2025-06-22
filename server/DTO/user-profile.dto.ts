@@ -1,6 +1,11 @@
 import { Transform } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsString, IsUrl, MinLength, MaxLength, IsBoolean } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, IsUrl, MinLength, MaxLength, IsBoolean, IsMongoId, IsOptional } from 'class-validator';
+import { Types } from 'mongoose';
 export class UserProfileDTO {
+  @IsOptional()
+  @IsMongoId()
+  _id?: string; // Assuming this is the user ID, it should be a string type
+
   @Transform(({ obj }) => obj.displayName)
   @IsString()
   @IsNotEmpty({ message: 'Display name is required.' })
@@ -27,7 +32,8 @@ export class UserProfileDTO {
   @IsString()
   accessToken: string;
 
-  @IsNotEmpty({ message: 'User ID is required.' })
-  @IsBoolean({ message: 'User ID must be a boolean.' })
+  @IsNotEmpty({ message: 'isLoggedIn is required.' })
+  @IsBoolean({ message: 'isLoggedIn must be a boolean.' })
   isLoggedIn: boolean;
+
 }
