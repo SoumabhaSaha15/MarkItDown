@@ -1,4 +1,16 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
+  themes: light --default, black --prefersdark, cupcake, retro, dark, dim;
+}
+
+html[data-theme="black"] {
+  --radius-selector: 1rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
+}
+
+html[data-theme="light"] {
+  --radius-selector: 1rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
 }

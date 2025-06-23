@@ -2,8 +2,8 @@ import './App.css'
 import 'aos/dist/aos.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Home } from './pages/Home'
-import { Login } from './pages/Login'
 import { NavBarOutlet } from './layouts/NavBarLayout';
+import EditorToolbar from './pages/Editor';
 import type { ReactNode } from 'react';
 import { Profile } from './pages/Profile';
 function App(): ReactNode {
@@ -11,9 +11,11 @@ function App(): ReactNode {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/user" element={<NavBarOutlet />}>
-          <Route path="profile" element={<Profile/>}/>
+          <Route index element={<Profile />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<div>Settings Page</div>} />
+          <Route path="create" element={<EditorToolbar />} />
         </Route>
       </Routes>
     </BrowserRouter>

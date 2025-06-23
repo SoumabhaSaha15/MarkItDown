@@ -7,7 +7,7 @@ import logError from "../../utility/log-error";
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const getDefaultTheme: () => ThemeOptionsType = () => {
     const { success, data } = ThemeOptionsValidator.safeParse(localStorage.getItem("theme"));
-    return success ? data : "dark";
+    return success ? data : "black";
   }
   const [theme,setTheme] = React.useState<ThemeOptionsType>(getDefaultTheme());
 
@@ -15,7 +15,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  const changeTheme = (theme: ThemeOptionsType) => {
+  const applyTheme = (theme: ThemeOptionsType) => {
     const { success, data, error } = ThemeOptionsValidator.safeParse(theme);
     if (success) {
       localStorage.setItem("theme", data);
@@ -25,7 +25,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   };
 
   return (
-    <ThemeContext.Provider value={{theme, setTheme: changeTheme }}>
+    <ThemeContext.Provider value={{theme, applyTheme }}>
       {children}
     </ThemeContext.Provider>
   );

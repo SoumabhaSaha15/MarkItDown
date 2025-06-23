@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 export const Profile: React.FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+
+  
+
   return (<div
     className="hero min-h-screen"
     style={{
