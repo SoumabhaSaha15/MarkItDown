@@ -1,9 +1,10 @@
 import React from "react";
-import IonIcon from "@reacticons/ionicons";
+import { IoMenu, IoMoon, IoSunny } from "react-icons/io5";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../context/Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/Theme/ThemeContext";
+import { Link } from "react-router-dom";
 const SideBar: React.FC<{ children: React.ReactElement, sideBarElement: React.ReactElement }> = ({ children, sideBarElement }: { children: React.ReactElement, sideBarElement: React.ReactElement }) => {
   return (
     <div className="drawer">
@@ -31,12 +32,15 @@ export const NavBarOutlet: React.FC = () => {
     else if (auth.userDetails.isLoggedIn === false) navigate('/', { replace: true });
     else { }
   }, []);
+
+  const swapOn = `swap-on h-10 w-10 fill-current scale-75`, swapOff = `swap-off h-10 w-10 fill-current scale-75`;
+
   return <SideBar children={(
     <>
       <div className="navbar bg-base-100 shadow-sm">
         <div className="navbar-start">
           <label htmlFor="my-drawer" className="btn btn-circle btn-ghost drawer-button">
-            <IonIcon name="menu" className="h-full w-full" size="large" />
+            <IoMenu className="h-[80%] w-[80%]" size={24} />
           </label>
         </div>
         <div className="navbar-center">
@@ -46,18 +50,22 @@ export const NavBarOutlet: React.FC = () => {
 
           <div className="tooltip tooltip-bottom">
             <div className="tooltip-content bg-base-100 text-base-content">
-              {`Apply ${(toggleTheme.theme === "black" ? "light" : "black")} mode`}
+              {`Apply ${(toggleTheme.theme === "black" ? "cupcake" : "black")} mode`}
             </div>
             <button className="btn btn-ghost btn-circle" >
               <label className="swap swap-rotate">
                 {/* this hidden checkbox controls the state */}
                 <input type="checkbox" className="theme-controller" value="synthwave" onChange={() => {
-                  toggleTheme.applyTheme(toggleTheme.theme === "black" ? 'light' : 'black');
+                  toggleTheme.applyTheme(toggleTheme.theme === "black" ? 'cupcake' : 'black');
                 }} />
-                {/* sun icon */}
-                <IonIcon name={toggleTheme.theme === "black" ? "sunny" : "moon"} className="swap-on h-10 w-10 fill-current" size="large" />
-                {/* moon icon */}
-                <IonIcon name={toggleTheme.theme === "black" ? "sunny" : "moon"} className="swap-off h-10 w-10 fill-current" size="large" />
+                {(toggleTheme.theme === "black") ? (<>
+                  <IoSunny className={swapOn} />
+                  <IoSunny className={swapOff} />
+                </>) : (<>
+                  <IoMoon className={swapOn} />
+                  <IoMoon className={swapOff} />
+                </>)}
+
               </label>
             </button>
           </div>
@@ -99,8 +107,8 @@ export const NavBarOutlet: React.FC = () => {
   )}
     sideBarElement={(
       <>
-        <li><a>Sidebar Item 1</a></li>
-        <li><a>Sidebar Item 2</a></li>
+        <li className="bg-base-100 rounded-box focus:ring-2 hover:ring-2 hover:ring-accent"><Link to="/user/create">create</Link></li>
+        {/* <li><Link to="/sidebar-item-2">Sidebar Item 2</Link></li> */}
       </>
     )} />;
 

@@ -11,7 +11,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       const response = await fetch(import.meta.env.VITE_USER_PROFILE);
       if (response.status != 200) throw new Error(`error in fetching profile status message:${response.statusText}`);
       const parsedData = UserDetailsSchema.parse(await response.json());
-      toast.open(`Wellcome ${parsedData.name}. You have successfully logged in`, true, 5000);
+      // toast.open(`Wellcome ${parsedData.name}. You have successfully logged in`, true, 5000);
       setUserDetails(parsedData);
       setTimeout(onSuccess, 1000);
     } catch (err) {
