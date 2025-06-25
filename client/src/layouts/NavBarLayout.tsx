@@ -12,8 +12,8 @@ const SideBar: React.FC<{ children: React.ReactElement, sideBarElement: React.Re
       <div className="drawer-content">
         {children}
       </div>
-      <div className="drawer-side">
-        <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
+      <div className="drawer-side max-w-[100%]">
+        <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay max-w-[100%]"></label>
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           {/* Sidebar content here */}
           {sideBarElement}
@@ -50,7 +50,7 @@ export const NavBarOutlet: React.FC = () => {
 
           <div className="tooltip tooltip-bottom">
             <div className="tooltip-content bg-base-100 text-base-content">
-              {`Apply ${(toggleTheme.theme === "black" ? "cupcake" : "black")} mode`}
+              {`${(toggleTheme.theme === "black" ? "cupcake" : "black")} mode`}
             </div>
             <button className="btn btn-ghost btn-circle" >
               <label className="swap swap-rotate">
@@ -76,11 +76,13 @@ export const NavBarOutlet: React.FC = () => {
                 <img
                   alt={auth.userDetails?._id || 'uid'}
                   src={auth.userDetails?.profilePhoto || '/user-circle.svg'}
+                  className="bg-gray-500"
+                  loading="lazy"
                 />
               </div>
             </div>
 
-            <div className="dropdown-content card bg-base-300 w-80 shadow-sm">
+            <div className="dropdown-content card bg-base-300 w-80 shadow-md shadow-base-100">
               <figure className="px-10 py-5">
                 <div className="avatar">
                   <div className="w-24 rounded-full">

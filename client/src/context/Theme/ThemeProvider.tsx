@@ -1,6 +1,5 @@
 import React from "react";
 import { ThemeContext, type ThemeOptionsType, ThemeOptionsValidator } from "./ThemeContext";
-// import { z } from "zod";
 import issueFlattener from "../../utility/zod-error-flattener";
 import logError from "../../utility/log-error";
 
