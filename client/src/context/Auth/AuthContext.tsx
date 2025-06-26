@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, type Context } from "react";
 import { z } from "zod";
 export const UserDetailsSchema = z.object({
   name: z.string(),
@@ -10,18 +10,20 @@ export const UserDetailsSchema = z.object({
     message: "Invalid ObjectId format",
   }),
 });
-export type UserDetailsType = z.infer<typeof UserDetailsSchema>|null;
-export const AuthContext = createContext < {
-  login: (onSuccess?:() => void,onError?:() => void) => Promise<void>;
-  logout: (onSuccess?:() => void,onError?:() => void) => Promise<void>;
+
+export type UserDetailsType = z.infer<typeof UserDetailsSchema> | null;
+export type AuthContextProps = {
+  login: (onSuccess?: () => void, onError?: () => void) => Promise<void>;
+  logout: (onSuccess?: () => void, onError?: () => void) => Promise<void>;
   userDetails: UserDetailsType | null;
-}> ({
-  login: async (onSuccess:() => void = () => {}, onError:() => void = () => {}) => {
+};
+export const AuthContext: Context<AuthContextProps> = createContext<AuthContextProps>({
+  login: async (onSuccess: () => void = () => { }, onError: () => void = () => { }) => {
     console.log(`User logged in`);
     onSuccess();
     onError();
   },
-  logout: async (onSuccess:() => void = () => {}, onError:() => void = () => {}) => {
+  logout: async (onSuccess: () => void = () => { }, onError: () => void = () => { }) => {
     console.log(`User logged out`);
     onSuccess();
     onError();

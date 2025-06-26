@@ -8,13 +8,13 @@ export type MessageType = z.infer<typeof messageObject>;
 export type ModalContextProps = {
   show: () => void;
   setMessage: (msg: MessageType) => void;
-  getPrompt: () => string;
+  getPrompt: (setPrompt: (str: string) => void,previous?:string) => void;
   close: () => void;
 }
 const ModalContext: Context<ModalContextProps> = createContext<ModalContextProps>({
   show: () => { },
   setMessage: (msg: MessageType) => { console.log(msg); },
-  getPrompt: () => '',
+  getPrompt: (setPrompt,previous:string="") => { console.log(setPrompt,previous) },
   close: () => { }
 });
 

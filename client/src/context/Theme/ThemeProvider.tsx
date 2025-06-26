@@ -8,8 +8,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     const { success, data } = ThemeOptionsValidator.safeParse(localStorage.getItem("theme"));
     return success ? data : "black";
   }
-  const [theme,setTheme] = React.useState<ThemeOptionsType>(getDefaultTheme());
-
+  const [theme, setTheme] = React.useState<ThemeOptionsType>(getDefaultTheme());
   React.useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
@@ -24,7 +23,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   };
 
   return (
-    <ThemeContext.Provider value={{theme, applyTheme }}>
+    <ThemeContext.Provider value={{ theme, applyTheme }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -1,5 +1,5 @@
-import { z } from 'zod';
 import { createContext, useContext, type Context } from "react";
+import { z } from 'zod';
 
 export const ToastOptionsValidator = z.strictObject({
   toastVariant: z.enum(['alert-info', 'alert-success', 'alert-warning', 'alert-error']),
@@ -13,7 +13,7 @@ export const ToastOptionsValidator = z.strictObject({
 });
 
 export type ToastOptionsType = z.infer<typeof ToastOptionsValidator>;
-type ToastContextType = {
+type ToastContextProps = {
   /**
    * @param component string message to be displayed in the toast
    * @param autoClose? boolean if true, the toast will close automatically after the timeout
@@ -24,11 +24,16 @@ type ToastContextType = {
   open: (component: string, autoClose?: boolean, timeout?: number, toastOptions?: ToastOptionsType) => string;
   close: (id: string) => void;
 };
-export const ToastContext: Context<ToastContextType> = createContext<ToastContextType>({
-  open: (component: string, autoClose: boolean = true, timeout: number = 1000, toastOptions: ToastOptionsType = {
-    toastPosition: ["", ""],
-    toastVariant: "alert-info"
-  }) => {
+export const ToastContext: Context<ToastContextProps> = createContext<ToastContextProps>({
+  open: (
+    component: string,
+    autoClose: boolean = true,
+    timeout: number = 1000,
+    toastOptions: ToastOptionsType = {
+      toastPosition: ["", ""],
+      toastVariant: "alert-info"
+    }
+  ) => {
     console.log(component, timeout, toastOptions, autoClose);
     return '';
   },
