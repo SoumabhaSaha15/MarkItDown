@@ -1,67 +1,23 @@
-import React from 'react';
+import { useCallback, useEffect, type FC } from 'react';
 import setTitle from '../utility/set-title';
-import { FaBold, FaItalic, FaUnderline, FaStrikethrough, FaSubscript, FaSuperscript, FaHighlighter, FaCode, FaLink } from 'react-icons/fa';
-import { type IconType } from 'react-icons';
 import { useModal } from '../context/Dialog/DialogContext';
 import { useToast, DefaultOptions } from '../context/Toast/ToastContext';
+import extensionConfiguration from '../configurations/editor';
+import { ToolbarButton } from '../components/EditorToolbarButton';
 import { EditorContent, useEditor } from '@tiptap/react';
-import SuperScript from '@tiptap/extension-superscript';
-import SubScript from '@tiptap/extension-subscript';
-import Highlight from '@tiptap/extension-highlight';
-import UnderLine from '@tiptap/extension-underline';
-import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
+import { FaBold, FaItalic, FaUnderline, FaStrikethrough, FaSubscript, FaSuperscript, FaHighlighter, FaCode, FaLink } from 'react-icons/fa';
+const EditorToolbar: FC = () => {
 
-type ToolbarButtonProps = {
-  onClick: () => void;
-  disabled?: boolean;
-  icon: IconType;
-  label: string;
-  id?: string;
-  dataTip: string;
-};
-
-export const ToolbarButton: React.FC<ToolbarButtonProps> = ({ onClick, disabled, icon: IconType, label, id, dataTip }: ToolbarButtonProps) => (
-  <div className="tooltip tooltip-bottom" data-tip={dataTip}>
-    <button
-      id={id}
-      type="button"
-      className="btn btn-ghost btn-sm btn-square"
-      onClick={onClick}
-      disabled={disabled}
-    >
-      <IconType className="w-5 h-5" aria-hidden="true" />
-      <span className="sr-only">{label}</span>
-    </button>
-  </div>
-);
-
-const EditorToolbar:React.FC = () => {
-  React.useEffect(() => setTitle("create blog"), []);
+  useEffect(() => setTitle("create blog"), []);
   const toast = useToast(), modal = useModal();
-
   const editor = useEditor({
-    content: '', extensions: [StarterKit, SuperScript, SubScript, Highlight, UnderLine,
-      Link.configure({
-        openOnClick: true,
-        autolink: true,
-        defaultProtocol: 'https',
-        isAllowedUri: (url) => {
-          const allowedProtocols = ['http:', 'https:'];
-          try {
-            return allowedProtocols.includes((new URL(url)).protocol);
-          } catch (e) {
-            toast.open((e as Error).message, true, 4000, DefaultOptions.error);
-            return false;
-          }
-        },
-        HTMLAttributes: { class: 'link' },
-      }),]
+    content: '',
+    extensions: extensionConfiguration(toast, DefaultOptions)
   });
 
   if (!editor) return null; // Initialize the editor with an empty content and no extensions
 
-  const setLink = React.useCallback(
+  const setLink = useCallback(
     () => {
       const previousUrl = editor.getAttributes('link').href;
       modal.setMessage({ heading: "Set URL", text: "" });
@@ -93,87 +49,51 @@ const EditorToolbar:React.FC = () => {
               <div className="flex items-center space-x-1 rtl:space-x-reverse flex-wrap">
 
                 {/* Bold Button */}
-                <ToolbarButton
+                <ToolbarButton id='ToggleBold' label="Bold" dataTip='Toggle bold' icon={FaBold}
                   onClick={() => editor.chain().focus().toggleBold().run()}
                   disabled={!editor.can().chain().focus().toggleBold().run()}
-                  icon={FaBold}
-                  label="Bold"
-                  id='ToggleBold'
-                  dataTip='Toggle Bold'
                 />
 
                 {/* Italic Button */}
-                <ToolbarButton
-                  id='ToggleItalic'
+                <ToolbarButton id='ToggleItalic' label='Italic' dataTip='Toggle italic' icon={FaItalic}
                   onClick={() => editor.chain().focus().toggleItalic().run()}
                   disabled={!editor.can().chain().focus().toggleItalic().run()}
-                  label='Italic'
-                  icon={FaItalic}
-                  dataTip='Toggle Italic'
                 />
 
                 {/* Underline Button */}
-                <ToolbarButton
-                  id="ToggleUnderline"
+                <ToolbarButton id="ToggleUnderline" label='Underline' dataTip='Toggle underline' icon={FaUnderline}
                   onClick={() => editor.chain().focus().toggleUnderline().run()}
                   disabled={!editor.can().chain().focus().toggleUnderline().run()}
-                  label='Underline'
-                  icon={FaUnderline}
-                  dataTip='Toggle underline'
                 />
 
                 {/* Strike Button */}
-                <ToolbarButton
-                  id='ToggleStrike'
+                <ToolbarButton id='ToggleStrike' label='strike' dataTip='Toggle strike' icon={FaStrikethrough}
                   onClick={() => editor.chain().focus().toggleStrike().run()}
                   disabled={!editor.can().chain().focus().toggleStrike().run()}
-                  icon={FaStrikethrough}
-                  dataTip='Toggle strike'
-                  label='strike'
                 />
                 {/* Subscript Button */}
-                <ToolbarButton
-                  id="ToggleSubscript"
+                <ToolbarButton id="ToggleSubscript" label='Subscript' dataTip='Toggle subscript' icon={FaSubscript}
                   onClick={() => editor.chain().focus().toggleSubscript().run()}
                   disabled={!editor.can().chain().focus().toggleSubscript().run()}
-                  label='Subscript'
-                  icon={FaSubscript}
-                  dataTip='Toggle subscript'
                 />
 
                 {/* Superscript Button */}
-                <ToolbarButton
-                  id='ToggleSuperscript'
-                  label='Superscript'
-                  icon={FaSuperscript}
+                <ToolbarButton id='ToggleSuperscript' label='Superscript' dataTip='Toggle superscript' icon={FaSuperscript}
                   onClick={() => editor.chain().focus().toggleSuperscript().run()}
                   disabled={!editor.can().chain().focus().toggleSuperscript().run()}
-                  dataTip='Toggle superscript'
                 />
 
                 {/* Highlight Button */}
-                <ToolbarButton
-                  id="ToggleHighltght"
+                <ToolbarButton id="ToggleHighltght" label='Highlight' dataTip='Toggle highlight' icon={FaHighlighter}
                   onClick={() => editor.chain().focus().toggleHighlight().run()}
                   disabled={!editor.can().chain().focus().toggleHighlight().run()}
-                  icon={FaHighlighter}
-                  label='Highlight'
-                  dataTip='Toggle highlight'
                 />
                 {/* Link Button */}
-                <ToolbarButton
-                  id='SetLink'
+                <ToolbarButton id='SetLink' label='Link' dataTip='Set link' icon={FaLink}
                   onClick={setLink}
-                  label='Link'
-                  dataTip='Set link'
-                  icon={FaLink}
                 />
                 {/* Code Button */}
-                <ToolbarButton
-                  id='ToggleCode'
-                  icon={FaCode}
-                  dataTip='Toggle code'
-                  label='Code'
+                <ToolbarButton id='ToggleCode' label='Code' dataTip='Toggle code' icon={FaCode}
                   onClick={() => editor.chain().focus().toggleCode().run()}
                   disabled={!editor.can().chain().focus().toggleCode().run()}
                 />

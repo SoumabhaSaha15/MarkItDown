@@ -13,7 +13,7 @@ export const ToastOptionsValidator = z.strictObject({
 });
 
 export type ToastOptionsType = z.infer<typeof ToastOptionsValidator>;
-type ToastContextProps = {
+export type ToastContextProps = {
   /**
    * @param component string message to be displayed in the toast
    * @param autoClose? boolean if true, the toast will close automatically after the timeout
@@ -42,7 +42,8 @@ export const ToastContext: Context<ToastContextProps> = createContext<ToastConte
 export const useToast = () => useContext(ToastContext);
 
 export const DefaultToastPosition: ["" | "toast-start" | "toast-end" | "toast-center", "" | "toast-top" | "toast-bottom" | "toast-middle"] = ['toast-end', 'toast-bottom'];
-export const DefaultOptions: Record<("error" | "success" | "info" | "warning"), ToastOptionsType> = {
+export type DefaultoptionsType = Record<("error" | "success" | "info" | "warning"), ToastOptionsType>
+export const DefaultOptions: DefaultoptionsType = {
   error: { toastPosition: DefaultToastPosition, toastVariant: 'alert-error' },
   success: { toastPosition: DefaultToastPosition, toastVariant: 'alert-success' },
   info: { toastPosition: DefaultToastPosition, toastVariant: 'alert-info' },
